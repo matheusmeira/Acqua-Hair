@@ -11,11 +11,12 @@ var schemaOptions = {
 
 var hairSalonSchema = new mongoose.Schema({
   address: { type: String, trim: true },
+  branches: [{ type: ObjectId, ref: 'HairSalon' }], // Melhorar isso
   email: { type: String, unique: true },
   employee: [{ type : ObjectId, ref: 'User' }],
   founder: [{ type: ObjectId, ref: 'User' }],
   gender: { type: String, enum: ['male', 'female', 'other'] },
-  geo: { type: [{ lat: Number, lon: Number }], index: '2d' },
+  geo: { lat: { type: Number }, lon: { type: Number }, index: '2d' }, // Talvez: { type: [Number] }
   logo: String,
   name: { type: String, trim: true },
   openingHours: { type: String, trim: true },
