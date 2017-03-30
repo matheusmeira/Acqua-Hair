@@ -9,22 +9,25 @@ var schemaOptions = {
   }
 };
 
-var userSchema = new mongoose.Schema({
+var hairSalonSchema = new mongoose.Schema({
   address: { type: String, trim: true },
-  birthday: { type: String, trim: true },
-  email: { type: String, unique: true},
-  employer: [{ type: ObjectId, ref: 'HairSalon' }],
-  favorites: [{ type : ObjectId, ref: 'User' }],
-  firstName: { type: String, trim: true },
+  email: { type: String, unique: true },
+  employee: [{ type : ObjectId, ref: 'User' }],
+  founder: [{ type: ObjectId, ref: 'User' }],
   gender: { type: String, enum: ['male', 'female', 'other'] },
-  lastName: { type: String, trim: true },
-  geo: { type: [Number], index: '2d' },
-  middleName: { type: String, trim: true },
+  geo: { type: [{ lat: Number, lon: Number }], index: '2d' },
+  logo: String,
+  name: { type: String, trim: true },
+  openingHours: { type: String, trim: true },
+  paymentAccpeted: [ type: String ],
+  priceRange: { type: String },
   password: String,
   passwordResetToken: String,
   passwordResetExpires: Date,
   phone: { type: String, trim: true },
-  picture: String,
+  reviews: [{ type: ObjectId, ref: 'Review' }],
+  service: [{ type: ObjectId, ref: 'Service' }], // Embeded
+  smokingAllowed: Boolean,
   socialNumber: { type: String, unique: true, index: true },
   website: String,
   facebook: String,
@@ -34,24 +37,24 @@ var userSchema = new mongoose.Schema({
   vk: String
 }, schemaOptions);
 
-userSchema.pre('save', function(next) {
-  var user = this;
-  if (!user.isModified('password')) { return next(); }
+hairSalonSchema.pre('save', function(next) {
+  var hairSalon = this;
+  if (!hairSalon.isModified('password')) { return next(); }
   bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(user.password, salt, null, function(err, hash) {
-      user.password = hash;
+    bcrypt.hash(hairSalon.password, salt, null, function(err, hash) {
+      hairSalon.password = hash;
       next();
     });
   });
 });
 
-userSchema.methods.comparePassword = function(password, cb) {
+hairSalonSchema.methods.comparePassword = function(password, cb) {
   bcrypt.compare(password, this.password, function(err, isMatch) {
     cb(err, isMatch);
   });
 };
 
-userSchema.virtual('gravatar').get(function() {
+hairSalonSchema.virtual('gravatar').get(function() {
   if (!this.get('email')) {
     return 'https://gravatar.com/avatar/?s=200&d=retro';
   }
@@ -59,7 +62,7 @@ userSchema.virtual('gravatar').get(function() {
   return 'https://gravatar.com/avatar/' + md5 + '?s=200&d=retro';
 });
 
-userSchema.options.toJSON = {
+hairSalonSchema.options.toJSON = {
   transform: function(doc, ret, options) {
     delete ret.password;
     delete ret.passwordResetToken;
@@ -67,6 +70,6 @@ userSchema.options.toJSON = {
   }
 };
 
-var User = mongoose.model('User', userSchema);
+var User = mongoose.model('User', hairSalonSchema);
 
 module.exports = User;
