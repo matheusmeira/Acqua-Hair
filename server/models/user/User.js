@@ -2,37 +2,9 @@ var crypto = require('crypto');
 var bcrypt = require('bcrypt-nodejs');
 var mongoose = require('mongoose');
 
-var schemaOptions = {
-  timestamps: true,
-  toJSON: {
-    virtuals: true
-  }
-};
+import { schema, options } from './schema';
 
-var userSchema = new mongoose.Schema({
-  address: { type: String, trim: true },
-  birthday: { type: String, trim: true },
-  email: { type: String, unique: true},
-  employer: [{ type: ObjectId, ref: 'HairSalon' }],
-  favorites: [{ type : ObjectId, ref: 'User' }],
-  firstName: { type: String, trim: true },
-  gender: { type: String, enum: ['male', 'female', 'other'] },
-  lastName: { type: String, trim: true },
-  geo: { lat: { type: Number }, lon: { type: Number }, index: '2d' }, // Talvez: { type: [Number] }
-  middleName: { type: String, trim: true },
-  password: String,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  phone: { type: String, trim: true },
-  picture: String,
-  socialNumber: { type: String, unique: true, index: true },
-  website: String,
-  facebook: String,
-  twitter: String,
-  google: String,
-  github: String,
-  vk: String
-}, schemaOptions);
+var userSchema = new mongoose.Schema(schema, options);
 
 userSchema.pre('save', function(next) {
   var user = this;
