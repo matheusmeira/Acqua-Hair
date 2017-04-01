@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import configApp from './config/express-config';
 import configDB from './config/mongo-config';
 import configPassport from './config/passport';
-import controllerGraphQL from './graphql';
+import configGraphQL from './graphql';
 
 process.env.NODE_ENV = 'development';
 
@@ -22,7 +22,7 @@ configDB.configDefault();
 configPassport.configDefault();
 
 // GraphQL API Controllers
-controllerGraphQL.registerRoutes(app);
+configGraphQL.registerRoutes(app);
 
 app.use(function(req, res, next) {
   res.locals.user = req.user;
@@ -40,8 +40,5 @@ if (app.get('env') === 'production') {
 app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });
-// app.listen(5000, function() {
-//   console.log('Express server listening on port ' + 5000);
-// });
 
 module.exports = app;

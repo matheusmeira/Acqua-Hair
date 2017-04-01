@@ -1,9 +1,4 @@
-export const options = {
-  timestamps: true,
-  toJSON: {
-    virtuals: true
-  }
-};
+import options from './utils/options';
 
 export const schema = (mongoose) => new mongoose.Schema({
   address: { type: String, trim: true },
