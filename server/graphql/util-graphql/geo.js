@@ -1,17 +1,17 @@
 import {
   GraphQLFloat,
+  GraphQLList,
   GraphQLString,
 } from 'graphql';
 
 export default {
   name: 'Geo',
   fields: {
-    lat: { type: GraphQLFloat },
-    lon: { type: GraphQLFloat },
+    geo: { type: new GraphQLList(GraphQLFloat) },
     formatted: {
       type: GraphQLString,
-      resolve(obj) {
-        return `${obj.lat}, ${obj.lon}`;
+      resolve(array) {
+        return `${array[0]}, ${array[1]}`;
       },
     },
   },

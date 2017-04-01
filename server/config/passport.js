@@ -7,7 +7,7 @@ const passport = require('passport'),
   GithubStrategy = require('passport-github').Strategy;
 
 
-var User = require('../models/User');
+var User = require('../models/user.model');
 
 export default {
   configDefault() {

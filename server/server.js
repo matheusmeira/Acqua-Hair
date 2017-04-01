@@ -3,8 +3,9 @@ import dotenv from 'dotenv';
 import configApp from './config/express-config';
 import configDB from './config/mongo-config';
 import configPassport from './config/passport';
-import controllerRest from './controllers/rest';
-import controllerGraphQL from './grapql';
+import controllerGraphQL from './graphql';
+
+process.env.NODE_ENV = 'development';
 
 // Load environment variables from .env file
 dotenv.load();
@@ -19,9 +20,6 @@ configDB.configDefault();
 
 // Passport OAuth strategies
 configPassport.configDefault();
-
-// REST API Controllers
-controllerRest.registerRoutes(app);
 
 // GraphQL API Controllers
 controllerGraphQL.registerRoutes(app);

@@ -2,7 +2,7 @@ var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var passport = require('passport');
-var User = require('../models/User');
+var User = require('../models/user/User');
 
 /**
  * Login required middleware
@@ -193,7 +193,7 @@ exports.unlink = function(req, res, next) {
         break;
       case 'github':
           user.github = undefined;
-        break;      
+        break;
       default:
         req.flash('error', { msg: 'Invalid OAuth Provider' });
         return res.redirect('/account');

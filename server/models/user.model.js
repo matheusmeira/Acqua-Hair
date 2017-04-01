@@ -2,9 +2,9 @@ var crypto = require('crypto');
 var bcrypt = require('bcrypt-nodejs');
 var mongoose = require('mongoose');
 
-import { schema, options } from './schema';
+import schema from './user.schema';
 
-var userSchema = new mongoose.Schema(schema(mongoose), options);
+var userSchema = schema(mongoose);
 
 userSchema.pre('save', function(next) {
   var user = this;
@@ -39,6 +39,4 @@ userSchema.options.toJSON = {
   }
 };
 
-var User = mongoose.model('User', userSchema);
-
-module.exports = User;
+export default mongoose.model('User', userSchema);

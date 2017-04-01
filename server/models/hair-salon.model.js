@@ -2,9 +2,9 @@ var crypto = require('crypto');
 var bcrypt = require('bcrypt-nodejs');
 var mongoose = require('mongoose');
 
-import { schema, options } from './schema';
+import schema from './hair-salon.schema';
 
-var hairSalonSchema = new mongoose.Schema(schema, options);
+var hairSalonSchema = schema(mongoose);
 
 hairSalonSchema.pre('save', function(next) {
   var hairSalon = this;
@@ -39,6 +39,4 @@ hairSalonSchema.options.toJSON = {
   }
 };
 
-var User = mongoose.model('User', hairSalonSchema);
-
-module.exports = User;
+export default mongoose.model('HairSalon', hairSalonSchema);
