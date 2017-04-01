@@ -1,6 +1,8 @@
 var crypto = require('crypto');
 var bcrypt = require('bcrypt-nodejs');
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
 
 var schemaOptions = {
   timestamps: true,
@@ -18,7 +20,8 @@ var userSchema = new mongoose.Schema({
   firstName: { type: String, trim: true },
   gender: { type: String, enum: ['male', 'female', 'other'] },
   lastName: { type: String, trim: true },
-  geo: { lat: { type: Number }, lon: { type: Number }, index: '2d' }, // Talvez: { type: [Number] }
+  geo: { type: [Number], index: '2d' }, // Talvez: { type: [Number] }
+  // geo: { lat: { type: Number }, lon: { type: Number }, index: '2d' }, // Talvez: { type: [Number] }
   middleName: { type: String, trim: true },
   password: String,
   passwordResetToken: String,
